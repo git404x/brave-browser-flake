@@ -1,0 +1,15 @@
+# Nix build result symlinks
+result
+result-*
+
+# Editor / IDE
+*.swp
+*.swo
+*~
+.vscode/
+.idea/
+.direnv/
+
+# OS files
+.DS_Store
+Thumbs.db
