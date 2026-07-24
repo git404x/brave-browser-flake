@@ -172,8 +172,23 @@ stdenv.mkDerivation {
       fi
     done
 
-    # Fix desktop files
-    find $out/share/applications -name "*.desktop" -exec sed -i "s|/usr/bin/[a-zA-Z0-9-]*|$out/bin/${pname}|g" {} +
+    # Fix Exec paths in desktop entries
+    for desktop_file in $out/share/applications/*.desktop; do
+      sed -i "s|/usr/bin/[a-zA-Z0-9-]*|${pname}|g" "$desktop_file"
+      
+      # declare the Wayland appID / window class for compositors
+      if ! grep -q "^StartupWMClass=" "$desktop_file"; then
+        echo "StartupWMClass=${pname}" >> "$desktop_file"
+      fi
+    done
+
+    # install icons
+    for size in 16 24 32 48 64 128 256; do
+      if [ -f $TARGET_OPT/product_logo_$size.png ]; then
+        mkdir -p $out/share/icons/hicolor/''${size}x''${size}/apps
+        ln -sf $TARGET_OPT/product_logo_$size.png $out/share/icons/hicolor/''${size}x''${size}/apps/${pname}.png
+      fi
+    done
 
     ln -sf ${xdg-utils}/bin/xdg-settings $TARGET_OPT/xdg-settings
     ln -sf ${xdg-utils}/bin/xdg-mime $TARGET_OPT/xdg-mime

@@ -25,6 +25,26 @@ let
     };
   };
 
+  configDir =
+    "BraveSoftware/"
+    + (
+      if cfg.package.pname == "brave-origin" then
+        "Brave-Origin"
+      else if cfg.package.pname == "brave-origin-beta" then
+        "Brave-Origin-Beta"
+      else if cfg.package.pname == "brave-beta" then
+        "Brave-Browser-Beta"
+      else
+        "Brave-Browser"
+    );
+
+  extensionJson = ext: {
+    name = "${configDir}/External Extensions/${ext.id}.json";
+    value.text = builtins.toJSON {
+      external_update_url = ext.updateUrl;
+    };
+  };
+
   policy = {
     ExtensionSettings = lib.listToAttrs (
       map (ext: {
@@ -37,17 +57,13 @@ let
     );
   };
 
-  wrappedPackage = pkgs.symlinkJoin {
-    name = "${cfg.package.name}-wrapped";
-    paths = [ cfg.package ];
-    nativeBuildInputs = [ pkgs.makeWrapper ];
-    postBuild = ''
-      wrapProgram $out/bin/${cfg.package.meta.mainProgram} \
-        ${lib.optionalString (
-          cfg.commandLineArgs != [ ]
-        ) "--add-flags ${lib.escapeShellArg (lib.concatStringsSep " " cfg.commandLineArgs)}"}
-    '';
-  };
+  wrappedPackage =
+    if cfg.commandLineArgs != [ ] then
+      cfg.package.override {
+        commandLineArgs = lib.concatStringsSep " " cfg.commandLineArgs;
+      }
+    else
+      cfg.package;
 in
 {
   options.programs.brave-browser = {
@@ -74,18 +90,29 @@ in
   };
 
   config = lib.mkIf cfg.enable (
-    if isHomeManager then {
-      home.packages = [ wrappedPackage ];
+    if isHomeManager then
+      {
+        home.packages = [ wrappedPackage ];
 
-      xdg.configFile."BraveSoftware/Brave-Browser/policies/managed/policy.json" = lib.mkIf (cfg.extensions != [ ]) {
-        text = builtins.toJSON policy;
-      };
-    } else {
-      environment.systemPackages = [ wrappedPackage ];
+        xdg.configFile = lib.mkIf (cfg.extensions != [ ]) (
+          lib.listToAttrs (map extensionJson cfg.extensions)
+        );
+      }
+    else
+      {
+        environment.systemPackages = [ wrappedPackage ];
 
-      environment.etc."brave/policies/managed/policy.json" = lib.mkIf (cfg.extensions != [ ]) {
-        text = builtins.toJSON policy;
-      };
-    }
+        # System level still uses /etc/brave/policies which works fine
+        environment.etc."brave/policies/managed/policy.json" = lib.mkIf (cfg.extensions != [ ]) {
+          text = builtins.toJSON policy;
+        };
+
+        # Also add it for the specific pname in case it diverges
+        environment.etc."${cfg.package.pname}/policies/managed/policy.json" =
+          lib.mkIf (cfg.extensions != [ ])
+            {
+              text = builtins.toJSON policy;
+            };
+      }
   );
 }
