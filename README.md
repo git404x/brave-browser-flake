@@ -20,7 +20,7 @@ inputs = {
   # The module automatically injects the overlay, use pkgs.bravePackages
   imports = [ inputs.brave-flake.homeManagerModules.default ];
 
-  programs.brave = {
+  programs.brave-browser = {
     enable = true;
     # options: brave, brave-beta, brave-origin, brave-origin-beta
     package = pkgs.bravePackages.brave-origin;
@@ -42,7 +42,7 @@ inputs = {
   # The module automatically injects the overlay
   imports = [ inputs.brave-flake.nixosModules.default ];
 
-  programs.brave = {
+  programs.brave-browser = {
     enable = true;
     package = pkgs.bravePackages.brave-origin;
   };
