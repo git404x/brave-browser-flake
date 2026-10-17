@@ -1,22 +1,22 @@
 {
   "brave": {
-    "version": "1.97.59",
-    "url": "https://github.com/brave/brave-browser/releases/download/v1.97.59/brave-browser_1.97.59_amd64.deb",
-    "hash": "sha256-Zm+Be2QKMoT7tcmzSRe3iFTirNkvp/661wTcKyk0m+U="
+    "version": "1.98.58",
+    "url": "https://github.com/brave/brave-browser/releases/download/v1.98.58/brave-browser_1.98.58_amd64.deb",
+    "hash": "sha256-S711QyeH61X3tJHdm/BiOTWoFnBAsWUzMoAoEa8E8Lw="
   },
   "brave-beta": {
-    "version": "1.99.44",
-    "url": "https://github.com/brave/brave-browser/releases/download/v1.99.44/brave-browser-beta_1.99.44_amd64.deb",
-    "hash": "sha256-FhltCTIsjjMH2pWpaP6Fj6tNDBRnWNQ67XOiFp86YBk="
+    "version": "1.99.45",
+    "url": "https://github.com/brave/brave-browser/releases/download/v1.99.45/brave-browser-beta_1.99.45_amd64.deb",
+    "hash": "sha256-whbtuEY1n++mYBSKeosB8krlYvUFzTdl0mqp9FZRUg0="
   },
   "brave-origin": {
-    "version": "1.97.59",
-    "url": "https://github.com/brave/brave-browser/releases/download/v1.97.59/brave-origin_1.97.59_amd64.deb",
-    "hash": "sha256-og+VPXoSMwv2t/6v8FdEy4P8/R/b97Yh453sNod1soc="
+    "version": "1.98.58",
+    "url": "https://github.com/brave/brave-browser/releases/download/v1.98.58/brave-origin_1.98.58_amd64.deb",
+    "hash": "sha256-2ujzPcigLkkeulIkLtqs4LX8udRC6msZYtv5Hms73a8="
   },
   "brave-origin-beta": {
-    "version": "1.99.44",
-    "url": "https://github.com/brave/brave-browser/releases/download/v1.99.44/brave-origin-beta_1.99.44_amd64.deb",
-    "hash": "sha256-/wbFpAkCtKCyiXrqB5g038r6wSHOnczAbsVzyhIDhWA="
+    "version": "1.99.45",
+    "url": "https://github.com/brave/brave-browser/releases/download/v1.99.45/brave-origin-beta_1.99.45_amd64.deb",
+    "hash": "sha256-RYP+jR//3SHxETDwwPH1h5M/Pu8R2le0+fp8T8hjuIs="
   }
 }
